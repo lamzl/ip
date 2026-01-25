@@ -3,7 +3,9 @@ public class Ethanbot {
     public static void main(String[] args) {
         String chatBotName = "Ethanbot";
         String line = "--------------------------------";
-        Scanner newScan = new Scanner(System.in);
+        Scanner newScan = new Scanner(System.in); // getting input
+        String[] task = new String[100]; // storing the tasks
+        int taskCount = 0; // track the number of tasks
 
         // Initial Output
         System.out.println(line);
@@ -17,9 +19,19 @@ public class Ethanbot {
             if (input.equals("bye")){
                 break;
             }
-            else{
+            else if (input.equals("list")){
                 System.out.println(line);
-                System.out.println(input);
+                for (int i = 0; i < taskCount; ++i){
+                    System.out.println((i + 1) + ". " + task[i]);
+                }
+            }
+            else{
+                // Store the input into the array
+                task[taskCount] = input;
+                ++taskCount;
+
+                System.out.println(line);
+                System.out.println("added: " + input);
                 System.out.println(line);
             }
         }
@@ -27,5 +39,7 @@ public class Ethanbot {
         System.out.println(line);
         System.out.println("Bye. Hope to see you again soon!");
         System.out.print(line);
+
+        newScan.close();
     }
 }
