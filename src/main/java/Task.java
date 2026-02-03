@@ -7,6 +7,10 @@ public class Task {
         this.description = description;
     }
 
+    public String getStatusIcon(){
+        return (isDone ? "X" : " ");
+    }
+
     public boolean isDone() {
         return isDone;
     }
@@ -23,4 +27,8 @@ public class Task {
         this.description = description;
     }
 
+    @Override
+    public String toString() {
+        return "[" + getStatusIcon() + "] " + description;
+    }
 }
