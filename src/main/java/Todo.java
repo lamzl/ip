@@ -1,5 +1,5 @@
-public class todo extends Task{
-    public todo(String description){
+public class Todo extends Task{
+    public Todo(String description){
         super(description);
     }
     @Override

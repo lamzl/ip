@@ -15,6 +15,14 @@ public class ChatLZL {
     }
 
     public static void main(String[] args) {
+        String logo = "   _____ _           _   _    ______ _      \n"
+                + "  / ____| |         | | | |  |___  /| |     \n"
+                + " | |    | |__   __ _| |_| |     / / | |     \n"
+                + " | |    | '_ \\ / _` | __| |    / /  | |     \n"
+                + " | |____| | | | (_| | |_| |____/ /__| |____ \n"
+                + "  \\_____|_| |_|\\__,_|\\__|______|_____|______|";
+        System.out.println("Hello from\n" + logo);
+
         String chatBotName = "ChatLZL";
         String line = "--------------------------------";
         Scanner newScan = new Scanner(System.in); // getting input
@@ -64,32 +72,28 @@ public class ChatLZL {
                 System.out.println("OK, I've marked this task as not done yet:");
                 System.out.println(" [ ] " + task[Integer.parseInt(sections[1]) - 1].toString());
                 System.out.println(line);
-            }
-            else if (instruction.equals("todo")){
+            } else if (instruction.equals("todo")){
                 String description = input.substring(5).trim();
-                task[taskCount] = new todo(description);
+                task[taskCount] = new Todo(description);
                 taskCount++;
                 printAddTaskMessage(task[taskCount - 1], taskCount);
-            }
-            else if (instruction.equals("deadline")){
+            } else if (instruction.equals("deadline")){
                 int byIndex = input.indexOf("/by");
                 String description = input.substring(9, byIndex).trim();
                 String by = input.substring(byIndex + 4).trim();
-                task[taskCount] = new deadline(description, by);
+                task[taskCount] = new Deadline(description, by);
                 taskCount++;
                 printAddTaskMessage(task[taskCount - 1], taskCount);
-            }
-            else if (instruction.equals("event")){
+            } else if (instruction.equals("event")){
                 int toIndex = input.indexOf("/to");
                 int fromIndex = input.indexOf("/from");
                 String description = input.substring(6, fromIndex).trim();
                 String from = input.substring(fromIndex + 6, toIndex).trim();
                 String to = input.substring(toIndex + 4).trim();
-                task[taskCount] = new event(description, from, to);
+                task[taskCount] = new Event(description, from, to);
                 taskCount++;
                 printAddTaskMessage(task[taskCount - 1], taskCount);
-            }
-            else{
+            } else {
                 // Store the input into the array
                 task[taskCount] = new Task(input);
                 ++taskCount;
