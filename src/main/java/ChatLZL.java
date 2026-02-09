@@ -19,20 +19,30 @@ public class ChatLZL {
     public static void run() {
         boolean isRunning = true;
         while (isRunning) {
-            String input = scanner.nextLine();
-            String command = input.split(" ")[0];
+            try {
+                String input = scanner.nextLine();
+                String command = input.split(" ")[0];
 
-            // We handle 'bye' here to break the loop, send everything else to handler
-            if (input.equals("bye")) {
-                isRunning = false;
-            } else {
-                handleCommand(command, input);
+                // We handle 'bye' here to break the loop, send everything else to handler
+                if (input.equals("bye")) {
+                    isRunning = false;
+                } else {
+                    handleCommand(command, input);
+                }
+            } catch (LZLExceptions e) {
+                System.out.println(LINE);
+                System.out.println(e.getMessage());
+                System.out.println(LINE);
+            } catch (Exception e) {
+                System.out.println(LINE);
+                System.out.println("Something went very wrong!: " + e.getMessage());
+                System.out.println(LINE);
             }
         }
     }
 
 
-    public static void handleCommand(String command, String fullInput) {
+    public static void handleCommand(String command, String fullInput) throws LZLExceptions {
         switch (command) {
         case "list":
             listTasks();
@@ -53,8 +63,9 @@ public class ChatLZL {
             addEvent(fullInput);
             break;
         default:
-            addGenericTask(fullInput);
-            break;
+//            addGenericTask(fullInput);
+//            break;
+            throw new LZLExceptions("I do not know what you just typed ;(( AM I BLIND???");
         }
     }
 
@@ -76,46 +87,71 @@ public class ChatLZL {
         System.out.println(LINE);
     }
 
-    public static void markTask(String input, boolean isDone) {
+    public static void markTask(String input, boolean isDone) throws LZLExceptions {
         String[] sections = input.split(" ");
-        int index = Integer.parseInt(sections[1]) - 1;
-
-        if (index >= 0 && index < taskCount) {
-            tasks[index].setDone(isDone);
-            System.out.println(LINE);
-            if (isDone) {
-                System.out.println("Nice! I've marked this task as done:");
-                System.out.println("  " + tasks[index].toString());
+        if (sections.length < 2) {
+            throw new LZLExceptions("This is an invalid input, please specify which command to mark!");
+        }
+        try {
+            int index = Integer.parseInt(sections[1]) - 1;
+            if (index >= 0 && index < taskCount) {
+                tasks[index].setDone(isDone);
+                System.out.println(LINE);
+                if (isDone) {
+                    System.out.println("Nice! I've marked this task as done:");
+                    System.out.println("  " + tasks[index].toString());
+                } else {
+                    System.out.println("OK, I've marked this task as not done yet:");
+                    System.out.println("  " + tasks[index].toString());
+                }
+                System.out.println(LINE);
             } else {
-                System.out.println("OK, I've marked this task as not done yet:");
-                System.out.println("  " + tasks[index].toString());
+                throw new LZLExceptions("This task number is not initialised yet!");
             }
-            System.out.println(LINE);
-        } else {
-            System.out.println("Error: Task number out of bounds.");
+        } catch (NumberFormatException e){
+            throw new LZLExceptions("Please enter a valid number thank you!");
         }
     }
 
-    public static void addTodo(String input) {
+    public static void addTodo(String input) throws LZLExceptions {
         String description = input.substring(5).trim();
+        if (description.isEmpty()){
+            throw new LZLExceptions("Your todo task cannot be empty!");
+        }
         Task newTask = new Todo(description);
         saveTask(newTask);
     }
 
-    public static void addDeadline(String input) {
+    public static void addDeadline(String input) throws LZLExceptions{
         int byIndex = input.indexOf("/by");
+
+        if (byIndex == -1){
+            throw new LZLExceptions("I think you did not put /by to specify the deadline");
+        }
         String description = input.substring(9, byIndex).trim();
         String by = input.substring(byIndex + 4).trim();
+
+        if (description.isEmpty() || by.isEmpty()){
+            throw new LZLExceptions("WOW! I think you forgot to write in your description");
+        }
+
         Task newTask = new Deadline(description, by);
         saveTask(newTask);
     }
 
-    public static void addEvent(String input) {
+    public static void addEvent(String input) throws LZLExceptions{
         int toIndex = input.indexOf("/to");
         int fromIndex = input.indexOf("/from");
+        if (toIndex == -1 || fromIndex == -1){
+            throw new LZLExceptions("You need to write /to or /from to input your event.");
+        }
         String description = input.substring(6, fromIndex).trim();
         String from = input.substring(fromIndex + 6, toIndex).trim();
         String to = input.substring(toIndex + 4).trim();
+
+        if (description.isEmpty() || to.isEmpty() || from.isEmpty()){
+            throw new LZLExceptions("Your event is incomplete, please take a look again thanks.");
+        }
         Task newTask = new Event(description, from, to);
         saveTask(newTask);
     }
