@@ -1,9 +1,18 @@
+import java.lang.reflect.Field;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.nio.file.Files;
+import java.io.IOException;
+import java.nio.file.Paths;
+
+
 
 public class ChatLZL {
 
     private static final String LINE = "--------------------------------";
+    private static final String FILE_PATH = "./data/chatlzl.txt";
     private static ArrayList<Task> tasks = new ArrayList<>();
     private static Scanner scanner = new Scanner(System.in);
 
@@ -15,6 +24,11 @@ public class ChatLZL {
     }
 
     public static void run() {
+        loadData();
+        if (!tasks.isEmpty()) {
+            System.out.println("There are " + tasks.size() + " tasks I have loaded!");
+            System.out.println(LINE);
+        }
         boolean isRunning = true;
         while (isRunning) {
             try {
@@ -161,6 +175,7 @@ public class ChatLZL {
 
     private static void saveTask(Task newTask) {
         tasks.add(newTask);
+        saveData();
         printAddTaskMessage(newTask);
     }
 
@@ -220,6 +235,81 @@ public class ChatLZL {
         System.out.println("Hello! I'm ChatLZL");
         System.out.println("What is up?");
         System.out.println(LINE);
+    }
+
+
+    public static void saveData() {
+        try {
+            File file = new File(FILE_PATH);
+            File parentDir = file.getParentFile();
+
+            if (!parentDir.exists()) {
+                parentDir.mkdirs();
+            }
+            FileWriter fw = new FileWriter(file, false);
+
+            for (Task task : tasks){
+                String type = "";
+                String extra = "";
+                String isDone = task.isDone() ? "1" : "0";
+
+                if (task instanceof Deadline) {
+                    type = "D";
+                    extra = " | " + ((Deadline) task).by;
+                } else if (task instanceof Event) {
+                    type = "E";
+                    extra = " | " + ((Event) task).from + "-" + ((Event) task).to;
+                } else if (task instanceof Todo){
+                    type = "T";
+                }
+                fw.write(type + " | " + isDone + " | " + task.getDescription() + extra + System.lineSeparator());
+            }
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("Error saving tasks: " + e.getMessage());
+        }
+    }
+
+    private static void loadData() {
+        File file = new File(FILE_PATH);
+
+        if (!file.exists()) {
+            return;
+        }
+
+        try {
+            Scanner fileScanner = new Scanner(file);
+            while (fileScanner.hasNext()) {
+                String line = fileScanner.nextLine();
+                String[] parts = line.split(" \\| ");
+
+                String type = parts[0];
+                boolean isDone = parts[1].equals("1");
+                String description = parts[2];
+
+                Task t = null;
+
+                switch (type) {
+                case "T":
+                    t = new Todo(description);
+                    break;
+                case "D":
+                    t = new Deadline(description, parts[3]);
+                    break;
+                case "E":
+                    String[] time = parts[3].split("-");
+                    t = new Event(description, time[0], time[1]);
+                    break;
+                }
+
+                if (t != null) {
+                    if (isDone) t.setDone(true);
+                    tasks.add(t);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error loading file: " + e.getMessage());
+        }
     }
 
     public static void printExit() {
