@@ -1,11 +1,14 @@
+import java.sql.Array;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class ChatLZL {
 
     private static final String LINE = "--------------------------------";
-    private static final int MAX_TASKS = 100;
-    private static Task[] tasks = new Task[MAX_TASKS];
-    private static int taskCount = 0;
+//    private static final int MAX_TASKS = 100;
+//    private static Task[] tasks = new Task[MAX_TASKS];
+//    private static int taskCount = 0;
+    private static ArrayList<Task> tasks = new ArrayList<>();
     private static Scanner scanner = new Scanner(System.in);
 
 
@@ -21,6 +24,11 @@ public class ChatLZL {
         while (isRunning) {
             try {
                 String input = scanner.nextLine();
+
+                if (input.trim().isEmpty()){
+                    continue;
+                }
+
                 String command = input.split(" ")[0];
 
                 // We handle 'bye' here to break the loop, send everything else to handler
@@ -44,7 +52,7 @@ public class ChatLZL {
 
     public static void handleCommand(String command, String fullInput) throws LZLExceptions {
         switch (command) {
-        case "list":
+        case "ls":
             listTasks();
             break;
         case "mark":
@@ -70,16 +78,16 @@ public class ChatLZL {
     public static void listTasks() {
         System.out.println(LINE);
 
-        if (taskCount == 0) {
+        if (tasks.isEmpty()) {
             System.out.println("You have no tasks in your list.");
         } else {
-            if (taskCount == 1) {
+            if (tasks.size() == 1) { // if the number of tasks is only 1
                 System.out.println("Here is the task in your list:");
             } else {
                 System.out.println("Here are the tasks in your list:");
             }
-            for (int i = 0; i < taskCount; ++i) {
-                System.out.println((i + 1) + "." + tasks[i].toString());
+            for (int i = 0; i < tasks.size(); ++i) {
+                System.out.println((i + 1) + "." + tasks.get(i).toString());
             }
         }
         System.out.println(LINE);
@@ -92,15 +100,15 @@ public class ChatLZL {
         }
         try {
             int index = Integer.parseInt(sections[1]) - 1;
-            if (index >= 0 && index < taskCount) {
-                tasks[index].setDone(isDone);
+            if (index >= 0 && index < tasks.size()) {
+                tasks.get(index).setDone(isDone);
                 System.out.println(LINE);
                 if (isDone) {
                     System.out.println("Nice! I've marked this task as done:");
-                    System.out.println("  " + tasks[index].toString());
+                    System.out.println("  " + tasks.get(index).toString());
                 } else {
                     System.out.println("OK, I've marked this task as not done yet:");
-                    System.out.println("  " + tasks[index].toString());
+                    System.out.println("  " + tasks.get(index).toString());
                 }
                 System.out.println(LINE);
             } else {
@@ -155,8 +163,7 @@ public class ChatLZL {
     }
 
     private static void saveTask(Task newTask) {
-        tasks[taskCount] = newTask;
-        taskCount++;
+        tasks.add(newTask);
         printAddTaskMessage(newTask);
     }
 
@@ -165,12 +172,16 @@ public class ChatLZL {
         System.out.println(LINE);
         System.out.println("Got it. I've added this task:");
         System.out.println(" " + task.toString());
-        if (taskCount == 1) {
-            System.out.println("Now you have " + taskCount + " task in your list.");
+        if (tasks.size() == 1) {
+            System.out.println("Now you have " + tasks.size() + " task in your list.");
         } else {
-            System.out.println("Now you have " + taskCount + " tasks in your list.");
+            System.out.println("Now you have " + tasks.size() + " tasks in your list.");
         }
         System.out.println(LINE);
+    }
+
+    public static void deleteTask(Task task) {
+
     }
 
     public static void printWelcome() {
