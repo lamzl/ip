@@ -63,8 +63,6 @@ public class ChatLZL {
             addEvent(fullInput);
             break;
         default:
-//            addGenericTask(fullInput);
-//            break;
             throw new LZLExceptions("I do not know what you just typed ;(( AM I BLIND???");
         }
     }
@@ -154,14 +152,6 @@ public class ChatLZL {
         }
         Task newTask = new Event(description, from, to);
         saveTask(newTask);
-    }
-
-    public static void addGenericTask(String input) {
-        tasks[taskCount] = new Task(input);
-        taskCount++;
-        System.out.println(LINE);
-        System.out.println("added: " + input);
-        System.out.println(LINE);
     }
 
     private static void saveTask(Task newTask) {
