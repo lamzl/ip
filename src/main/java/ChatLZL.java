@@ -4,9 +4,6 @@ import java.util.ArrayList;
 public class ChatLZL {
 
     private static final String LINE = "--------------------------------";
-//    private static final int MAX_TASKS = 100;
-//    private static Task[] tasks = new Task[MAX_TASKS];
-//    private static int taskCount = 0;
     private static ArrayList<Task> tasks = new ArrayList<>();
     private static Scanner scanner = new Scanner(System.in);
 
@@ -16,7 +13,6 @@ public class ChatLZL {
         run();
         printExit();
     }
-
 
     public static void run() {
         boolean isRunning = true;
@@ -30,7 +26,6 @@ public class ChatLZL {
 
                 String command = input.split(" ")[0];
 
-                // We handle 'bye' here to break the loop, send everything else to handler
                 if (input.equals("bye")) {
                     isRunning = false;
                 } else {
@@ -68,6 +63,9 @@ public class ChatLZL {
             break;
         case "event":
             addEvent(fullInput);
+            break;
+        case "rm":
+            deleteTask(fullInput);
             break;
         default:
             throw new LZLExceptions("I do not know what you just typed ;(( AM I BLIND???");
@@ -167,6 +165,36 @@ public class ChatLZL {
     }
 
 
+    public static void deleteTask(String input) throws LZLExceptions {
+        String[] sections = input.split(" ");
+        if (sections.length < 2) {
+            throw new LZLExceptions("This is an invalid input, please specify which command to delete!");
+        }
+        try {
+            int idx = Integer.parseInt(sections[1]) - 1;
+
+            if (idx >= 0 && idx < tasks.size()) {
+                Task removedTask = tasks.remove(idx);
+                System.out.println(LINE);
+                System.out.println("Okay, I will remove this task: ");
+                System.out.println(" " + removedTask.toString());
+
+
+                if (tasks.size() == 1) {
+                    System.out.println("You have 1 task in your list right now!");
+                } else {
+                    System.out.println("You have " + tasks.size() + " tasks in your list right now!");
+                }
+            } else {
+                throw new LZLExceptions("That task does not exist!");
+            }
+            System.out.println(LINE);
+        } catch (NumberFormatException e) {
+            throw new LZLExceptions("This is not a valid number, can you please add a valid number to delete the task?");
+        }
+
+    }
+
     public static void printAddTaskMessage(Task task) {
         System.out.println(LINE);
         System.out.println("Got it. I've added this task:");
@@ -179,9 +207,6 @@ public class ChatLZL {
         System.out.println(LINE);
     }
 
-    public static void deleteTask(Task task) {
-
-    }
 
     public static void printWelcome() {
         String logo = "   _____ _           _   _    ______ _      \n"
