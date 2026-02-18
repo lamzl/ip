@@ -190,6 +190,7 @@ public class ChatLZL {
 
             if (idx >= 0 && idx < tasks.size()) {
                 Task removedTask = tasks.remove(idx);
+                saveData();
                 System.out.println(LINE);
                 System.out.println("Okay, I will remove this task: ");
                 System.out.println(" " + removedTask.toString());
