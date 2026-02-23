@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class ChatLZL {
 
     private static final String LINE = "--------------------------------";
@@ -72,6 +74,9 @@ public class ChatLZL {
             break;
         case "rm":
             deleteTask(fullInput);
+            break;
+        case "find":
+            findTask(fullInput);
             break;
         default:
             throw new LZLExceptions("I do not know what you just typed ;(( AM I BLIND???");
@@ -179,6 +184,12 @@ public class ChatLZL {
             System.out.println("Now you have " + tasks.getSize() + " tasks in your list.");
         }
         System.out.println(LINE);
+    }
+
+    public void findTask(String input) throws LZLExceptions {
+        String keyword = Parser.parseFind(input);
+        ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
+        ui.showFoundTasks(matchingTasks);
     }
 
 }

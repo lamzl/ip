@@ -50,4 +50,17 @@ public class Ui {
     public boolean hasNextCommand() {
         return scanner.hasNextLine();
     }
+
+    public void showFoundTasks(ArrayList<Task> matchingTasks) {
+        printLine();
+        if (matchingTasks.isEmpty()) {
+            showMessage("No matching tasks found in your list.");
+        } else {
+            showMessage("Here are the matching tasks in your list:");
+            for (int i = 0; i < matchingTasks.size(); i++) {
+                showMessage((i + 1) + "." + matchingTasks.get(i).toString());
+            }
+        }
+        printLine();
+    }
 }
