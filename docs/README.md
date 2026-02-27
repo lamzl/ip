@@ -32,12 +32,12 @@ ChatLZL is a task manager that utilises the CLI (Command Line Interface). If you
 ## Features
 
 ### Adding a Todo: `todo`
-Adds a task without any date or time attached to it.
+Adds a task without any date or time attached.
 * **Format:** `todo DESCRIPTION`
 * **Example:** `todo read book`
 
 ### Adding a Deadline: `deadline`
-Adds a task that needs to be done before a specific date/time.
+Adds a task that needs to be done before a specific date or time.
 * **Format:** `deadline DESCRIPTION /by DEADLINE`
 * **Example:** `deadline return book /by Sunday`
 
@@ -58,7 +58,7 @@ Finds tasks whose descriptions contain the given keyword.
 ### Marking a task as done: `mark`
 Marks a specific task in the list as completed.
 * **Format:** `mark INDEX`
-    * The index must be a positive integer (1, 2, 3...) corresponding to the task number in the list.
+    * The index must be a positive integer that is present in the list.
 * **Example:** `mark 2` marks the 2nd task in the list as done.
 
 ### Unmarking a task: `unmark`
