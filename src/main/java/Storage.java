@@ -4,11 +4,27 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Handles the storage of past tasks
+ * This is to ensure that the task will still be present after exiting the program
+ */
 public class Storage {
     private String filePath;
+    /**
+     * Constructs a Storage object with the specified file path.
+     *
+     * @param filePath The relative or absolute path to the file where data will be stored.
+     */
     public Storage(String filePath){
         this.filePath = filePath;
     }
+    /**
+     * Saves the current list of tasks locally.
+     * If the target directory or file does not exist, they will be created.
+     * The tasks are formatted into a specific string format before being written to the file.
+     *
+     * @param tasks The ArrayList of Task objects to be saved.
+     */
     public void saveData(ArrayList<Task> tasks) {
         try {
             File file = new File(filePath);
@@ -40,7 +56,12 @@ public class Storage {
             System.out.println("Error saving tasks: " + e.getMessage());
         }
     }
-
+    /**
+     * Loads the tasks from the hard disk into an ArrayList.
+     * the corresponding Todo, Deadline, or Event objects.
+     *
+     * @return An ArrayList containing the tasks loaded from the file. Returns an empty list if the file does not exist.
+     */
     public ArrayList<Task> loadData() {
         ArrayList<Task> loadedTasks = new ArrayList<>();
         File file = new File(filePath);

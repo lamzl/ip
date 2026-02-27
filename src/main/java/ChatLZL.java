@@ -1,5 +1,12 @@
 import java.util.ArrayList;
 
+/**
+ * This is the main class for ChatLZL
+ * This class will initialise the necessary variables and components
+ * It handles the main execution loop for the user interactions and inputs
+ *
+ */
+
 public class ChatLZL {
 
     private static final String LINE = "--------------------------------";

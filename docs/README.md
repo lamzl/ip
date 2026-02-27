@@ -1,6 +1,23 @@
 # ChatLZL User Guide
 
-ChatLZL is a desktop app for managing your daily tasks, optimized for use via a Command Line Interface (CLI). If you can type fast, ChatLZL can get your task management done faster than traditional GUI apps.
+ChatLZL is a task manager that utilises the CLI (Command Line Interface). If you can type fast and are familiar with the command line, ChatLZL can get your task management done faster than traditional GUI apps.
+
+## Table of Contents
+* [Quick Start](#quick-start)
+* [Features](#features)
+    * [Adding a Todo: `todo`](#adding-a-todo-todo)
+    * [Adding a Deadline: `deadline`](#adding-a-deadline-deadline)
+    * [Adding an Event: `event`](#adding-an-event-event)
+    * [Listing all tasks: `ls`](#listing-all-tasks-ls)
+    * [Finding tasks by keyword: `find`](#finding-tasks-by-keyword-find)
+    * [Marking a task as done: `mark`](#marking-a-task-as-done-mark)
+    * [Unmarking a task: `unmark`](#unmarking-a-task-unmark)
+    * [Deleting a task: `rm`](#deleting-a-task-rm)
+    * [Exiting the program: `bye`](#exiting-the-program-bye)
+* [Data Storage](#data-storage)
+* [Command Summary](#command-summary)
+
+---
 
 ## Quick Start
 
@@ -10,10 +27,12 @@ ChatLZL is a desktop app for managing your daily tasks, optimized for use via a 
 4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar chatlzl.jar` command to run the application.
 5. Type the command in the command box and press Enter to execute it. e.g. typing `ls` and pressing Enter will list all your tasks.
 
+---
+
 ## Features
 
 ### Adding a Todo: `todo`
-Adds a simple task without any date or time attached to it.
+Adds a task without any date or time attached to it.
 * **Format:** `todo DESCRIPTION`
 * **Example:** `todo read book`
 
@@ -28,7 +47,7 @@ Adds a task that starts at a specific time and ends at a specific time.
 * **Example:** `event project meeting /from Mon 2pm /to 4pm`
 
 ### Listing all tasks: `ls`
-Shows a list of all tasks currently in your task list.
+Lists of all tasks currently in your task list.
 * **Format:** `ls`
 
 ### Finding tasks by keyword: `find`
@@ -45,16 +64,34 @@ Marks a specific task in the list as completed.
 ### Unmarking a task: `unmark`
 Marks a specific task in the list as not completed yet.
 * **Format:** `unmark INDEX`
-* **Example:** `unmark 2` marks the 2nd task in the list as incomplete.
+* **Example:** `unmark 2` unmarks the second item on the list.
 
 ### Deleting a task: `rm`
 Removes a specific task from the list permanently.
 * **Format:** `rm INDEX`
-* **Example:** `rm 3` deletes the 3rd task in the task list.
+* **Example:** `rm 3` deletes the third item in the task list.
 
 ### Exiting the program: `bye`
 Exits the application and saves your data securely.
 * **Format:** `bye`
 
+---
+
 ## Data Storage
-ChatLZL saves your data automatically to your hard disk (`./data/chatlzl.txt`) after any command that changes the data. There is no need to save manually.
+ChatLZL saves your data automatically to your hard disk (`./data/chatlzl.txt`) after any command that changes the data. There is no need to save manually. Your tasks will be present even after exiting the app!
+
+---
+
+## Command Summary
+
+| Action | Format | Example                                       |
+| :--- | :--- |:----------------------------------------------|
+| **Todo** | `todo DESCRIPTION` | `todo grocery shopping`                       |
+| **Deadline** | `deadline DESCRIPTION /by DEADLINE` | `deadline return book /by Sunday`             |
+| **Event** | `event DESCRIPTION /from START /to END` | `event project meeting /from Mon 2pm /to 4pm` |
+| **List** | `ls` | `ls`                                          |
+| **Find** | `find KEYWORD` | `find book`                                   |
+| **Mark** | `mark INDEX` | `mark 2`                                      |
+| **Unmark** | `unmark INDEX` | `unmark 2`                                    |
+| **Delete** | `rm INDEX` | `rm 3`                                        |
+| **Exit** | `bye` | `bye`                                         |
