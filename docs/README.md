@@ -22,7 +22,7 @@ ChatLZL is a task manager that utilises the CLI (Command Line Interface). If you
 ## Quick Start
 
 1. Ensure you have Java `17` or above installed in your Computer.
-2. Download `chatlzl.jar` from the releases tab.
+2. Download `chatlzl.jar` from the [releases tab](https://github.com/lamzl/ip/releases).
 3. Copy the file to the folder you want to use as the home folder for your ChatLZL.
 4. Open a command terminal, `cd` into the folder you put the jar file in, and type `java -jar chatlzl.jar` command to run the application.
 5. Type the command in the command box and press Enter to execute it. e.g. typing `ls` and pressing Enter will list all your tasks.
